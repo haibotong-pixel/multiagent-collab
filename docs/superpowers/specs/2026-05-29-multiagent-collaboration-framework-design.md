@@ -290,6 +290,21 @@ Then: add ADK + OpenAI adapters and the remaining patterns/baselines against the
 
 ---
 
+## 11. Relation to prior work & the gaps we address
+
+Full annotated survey: [`docs/related-work.md`](../../related-work.md) (adversarially fact-checked, 2026-05-29).
+
+**The central finding:** whether multi-agent collaboration "helps" is framing-dependent. Versus a single *one-pass* agent, collaboration almost always wins (multi-agent debate — Du et al. 2023; Liang et al. 2023; role frameworks — AutoGen/CAMEL/MetaGPT/ChatDev; sampling+voting — Li et al. 2024). Versus a **compute-matched** single agent (self-consistency, repeated sampling+vote, self-refine), collaboration **frequently ties or loses**, and a consistent skeptical line (Smit et al. 2023; Zhang et al. 2025; Tran & Kiela 2026; Cemri et al. 2025 / MAST) attributes apparent gains largely to extra inference compute and hyperparameter tuning rather than to the collaboration *structure*. In our fact-check, even "debate beats a compute-matched multi-agent majority vote" was refuted using Du et al.'s own numbers (GSM8K: debate 85% vs majority 81% vs single 77%).
+
+This is exactly why **`B1` self-consistency and `B2` self-refine are first-class patterns** here (§5), scored identically to every collaboration pattern: a measured improvement only counts if it beats compute-matched single-agent compute.
+
+**Gaps this project addresses:**
+1. **Structure vs. brute-force compute** — score `P1`–`P9` against *strictly compute-matched* `B1`/`B2` on the same tasks (the comparison most positive work omits and most skeptical work does only piecemeal).
+2. **Reasoning *and* agentic** — the compute-matched negative results are established almost entirely on reasoning benchmarks; their validity on agentic/tool-use tasks (GAIA, SWE-bench, long-horizon tools) is the largest open gap, which our dual reasoning+agentic eval targets (§7).
+3. **SDK-effect vs model-effect** — holding the model fixed across SDKs (Pydantic AI / LiteLLM-wrapped OpenAI / ADK) isolates the orchestration/scaffolding effect; no prior work cleanly measures it (RQ4).
+4. **Heterogeneity, isolated** — homogeneous vs heterogeneous pairs test whether cross-model diversity is causal or merely reproduces temperature-sampling diversity (the strong "diversity is the driver" claim was refuted; only a bounded Heter-MAD 4–6pp effect survived).
+5. **Two-agent / small-N, controlled** — no verified result isolates the small-N regime against compute-matched baselines; we study the smallest collaborative unit as a clean `pattern × model × SDK` matrix.
+
 ## Appendix A — Grounded SDK/PocketFlow API facts (research 2026-05-29)
 
 Captured from official docs/source so adapters are implemented against reality, not guesswork.
