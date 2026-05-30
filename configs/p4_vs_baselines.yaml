@@ -1,0 +1,10 @@
+# real demo (needs ANTHROPIC_API_KEY; Claude SDK needs Node)
+experiment: p4_vs_baselines
+task_suite: gsm8k_mini
+repetitions: 3
+roster:
+  claude_sonnet: {sdk: claude,   model: claude-sonnet-4-6}
+  pyd_sonnet:    {sdk: pydantic, model: anthropic:claude-sonnet-4-6}
+runs:
+  - {pattern: single, bind: {solo: claude_sonnet}}              # B0 baseline
+  - {pattern: draft_refine, bind: {drafter: claude_sonnet, refiner: pyd_sonnet}}  # P4

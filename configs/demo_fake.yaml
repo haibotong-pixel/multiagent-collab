@@ -1,0 +1,10 @@
+# no-network wiring demo (FakeAgent; proves the loop, not accuracy)
+experiment: demo_fake
+task_suite: gsm8k_mini
+repetitions: 1
+roster:
+  A: {sdk: fake, model: drafter-bot}
+  B: {sdk: fake, model: refiner-bot}
+runs:
+  - {pattern: single, bind: {solo: A}}
+  - {pattern: draft_refine, bind: {drafter: A, refiner: B}}
